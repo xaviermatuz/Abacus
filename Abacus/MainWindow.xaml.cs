@@ -25,10 +25,12 @@ namespace Abacus
             try
             {
                 var collection = db.GetCollection<BsonDocument>("Clientes");
-                var serial = collection.Find(new BsonDocument()).FirstOrDefaultAsync();
+                var filter = Builders<BsonDocument>.Filter.Eq("Serial", txtPassword.Text);
+                var serial = collection.Find(filter).First();
+                var result = serial.ToBsonDocument().GetElement(2).Value;
                 //var filter = Builders<BsonDocument>.Filter.Eq("Serial", txtPassword);
                 //var serial = collection.Find(filter);
-                if (txtPassword.Text == serial.ToString())
+                if (txtPassword.Text == result.ToString())
                 {
                     VentanaPrincipal VentanaPrincipal = new VentanaPrincipal();
                     VentanaPrincipal.Show();
